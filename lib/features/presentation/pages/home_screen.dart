@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:notepad_flutter/core/note_category.dart';
 import 'package:notepad_flutter/features/controller/home_screen_controller.dart';
-import 'package:notepad_flutter/features/data/entity/note.dart';
 import 'package:notepad_flutter/features/presentation/pages/dialogs/category_dialog.dart';
 import 'package:notepad_flutter/features/presentation/widgets/note_card.dart';
-import '../../../core/note_category.dart';
 import '../../data/dao/note_dao.dart';
+import '../../data/entity/note.dart';
 import 'dialogs/delete_note_dialog.dart';
 import 'note_screen.dart';
 
@@ -23,15 +23,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final c = Get.put(HomeScreenController());
+  late final c = Get.put(HomeScreenController(noteDao: widget.noteDao));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(
-          () => Text(c.title.value),
-        ),
+        title: Obx(() => Text(c.title.value)),
         actions: [
           /// By default, the app shows all the notes, but the user can
           /// change the category using this button. Note that the AppBar
