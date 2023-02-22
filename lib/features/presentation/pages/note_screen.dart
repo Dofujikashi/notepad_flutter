@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notepad_flutter/core/note_category.dart';
@@ -90,26 +92,21 @@ class _NoteScreenState extends State<NoteScreen> {
               const SizedBox(height: 8),
               Expanded(
                 flex: 1,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.amber,
-                  ),
-                  child: IconButton(
-                    onPressed: () async {
-                      final xFile = await imagePicker.pickImage(
-                          source: ImageSource.gallery);
-                      if (xFile != null) {
-                        setState(() {
-                          xFile.readAsBytes().then((value) {
-                            image = MemoryImage(value);
-                          });
-                        });
-                      }
-                    },
-                    icon: (image == null)
-                        ? const Icon(Icons.photo, size: 40)
+                child: TextButton(
+                  onPressed: () async {
+                    final xFile = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    if (xFile != null) {
+                      Uint8List bytes = await xFile.readAsBytes();
+                      setState(() {
+                        image = MemoryImage(bytes);
+                      });
+                    }
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: (image == null)
+                        ? const Icon(Icons.add_photo_alternate, size: 40)
                         : Image.memory(image!.bytes),
                   ),
                 ),
