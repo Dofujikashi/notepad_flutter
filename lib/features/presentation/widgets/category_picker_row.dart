@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:notepad_flutter/core/note_category.dart';
+import 'package:notepad_flutter/features/controller/note_screen_controller.dart';
 import 'package:notepad_flutter/features/presentation/widgets/category_button.dart';
+import 'package:get/get.dart';
 
 class CategoryPickerRow extends StatelessWidget {
-  final List<Function> functions;
-  final NoteCategory selectedCategory;
-
-  const CategoryPickerRow({
+  CategoryPickerRow({
     Key? key,
-    required this.selectedCategory,
-    required this.functions,
   }) : super(key: key);
+
+  final NoteScreenController c = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +17,19 @@ class CategoryPickerRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         CategoryButton(
-          function: functions[0],
+          function: () => c.selectedCategory.value = NoteCategory.personal,
           title: 'Personal',
           icon: Icons.person,
-          selectedCategory: selectedCategory,
         ),
         CategoryButton(
-          function: functions[1],
+          function: () => c.selectedCategory.value = NoteCategory.business,
           title: 'Business',
           icon: Icons.business,
-          selectedCategory: selectedCategory,
         ),
         CategoryButton(
-          function: functions[2],
+          function: () => c.selectedCategory.value = NoteCategory.shopping,
           title: 'Shopping',
           icon: Icons.shopping_cart,
-          selectedCategory: selectedCategory,
         ),
       ],
     );

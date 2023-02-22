@@ -29,6 +29,7 @@ class NoteCard extends StatelessWidget {
         onDismissed.call();
       },
       child: ListTile(
+        shape: const Border(bottom: BorderSide()),
         leading: Icon(
           getCategoryIconForNoteCard(note.category),
           color: NoteColor.black.color,

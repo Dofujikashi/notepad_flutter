@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'features/data/dao/note_dao.dart';
 import 'features/data/database/database.dart';
 import 'features/presentation/pages/home_screen.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData.from(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.amber,

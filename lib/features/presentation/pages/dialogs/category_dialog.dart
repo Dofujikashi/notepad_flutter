@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:notepad_flutter/features/controller/home_screen_controller.dart';
 import '../../../../core/note_category.dart';
+import 'package:get/get.dart';
 
 class CategoryDialog extends StatelessWidget {
-  const CategoryDialog({Key? key}) : super(key: key);
+  CategoryDialog({Key? key}) : super(key: key);
+
+  final HomeScreenController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -10,25 +14,33 @@ class CategoryDialog extends StatelessWidget {
       children: [
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, NoteCategory.all);
+            controller.selectedCategory.value = NoteCategory.all;
+            controller.title.value = 'My Notes';
+            Navigator.pop(context);
           },
           child: const Text('Show all notes'),
         ),
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, NoteCategory.personal);
+            controller.selectedCategory.value = NoteCategory.personal;
+            controller.title.value = 'Personal Notes';
+            Navigator.pop(context);
           },
           child: const Text('Show personel notes'),
         ),
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, NoteCategory.business);
+            controller.selectedCategory.value = NoteCategory.business;
+            controller.title.value = 'Business Notes';
+            Navigator.pop(context);
           },
           child: const Text('Show business notes'),
         ),
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, NoteCategory.shopping);
+            controller.selectedCategory.value = NoteCategory.shopping;
+            controller.title.value = 'Shopping Notes';
+            Navigator.pop(context);
           },
           child: const Text('Show shopping notes'),
         ),
