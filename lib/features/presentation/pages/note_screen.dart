@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:notepad_flutter/core/note_category.dart';
 import 'package:notepad_flutter/core/note_color.dart';
 import 'package:notepad_flutter/features/controller/note_screen_controller.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 
 /// This is the detailed note screen, where the user can create/update
 /// their notes.
-class NoteScreen extends StatelessWidget {
+class NoteScreen extends StatefulWidget {
   final NoteDao noteDao;
   final Note? note;
 
@@ -20,20 +21,37 @@ class NoteScreen extends StatelessWidget {
     required this.noteDao,
   }) : super(key: key);
 
+  @override
+  State<NoteScreen> createState() => _NoteScreenState();
+}
+
+class _NoteScreenState extends State<NoteScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final c = Get.put(NoteScreenController());
+  final imagePicker = ImagePicker();
+  late MemoryImage? image = widget.note?.image;
 
   @override
   Widget build(BuildContext context) {
     /// If the user came to this page for updating their note, the default
     /// values will be overwritten.
-    c.selectedCategory.value = note?.category ?? NoteCategory.personal;
-    c.selectedColor.value = note?.color ?? NoteColor.amber;
+    c.selectedCategory.value = widget.note?.category ?? NoteCategory.personal;
+    c.selectedColor.value = widget.note?.color ?? NoteColor.amber;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(note?.title ?? 'Create New Note'),
+        title: Text(widget.note?.title ?? 'Create New Note'),
         actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                image = null;
+              });
+            },
+            icon: const Icon(Icons.no_photography_rounded),
+          ),
+
           /// This button controls the fields required for the database and
           /// create/update a note, but if the requirement are not met,
           /// error messages will show up.
@@ -44,15 +62,17 @@ class NoteScreen extends StatelessWidget {
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 Note n = Note(
-                  note?.id,
+                  widget.note?.id,
                   c.title,
                   c.selectedCategory.value,
                   c.body,
                   c.selectedColor.value,
-                  null, // Image uploading is not implemented yet.
+                  image,
                 );
-                (note == null) ? noteDao.insertNote(n) : noteDao.updateNote(n);
-                Navigator.pop(context);
+                (widget.note == null)
+                    ? widget.noteDao.insertNote(n)
+                    : widget.noteDao.updateNote(n);
+                Get.back();
               }
             },
             icon: const Icon(Icons.save),
@@ -67,8 +87,35 @@ class NoteScreen extends StatelessWidget {
             children: [
               CategoryPickerRow(),
               ColorPickerRow(),
+              const SizedBox(height: 8),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.amber,
+                  ),
+                  child: IconButton(
+                    onPressed: () async {
+                      final xFile = await imagePicker.pickImage(
+                          source: ImageSource.gallery);
+                      if (xFile != null) {
+                        setState(() {
+                          xFile.readAsBytes().then((value) {
+                            image = MemoryImage(value);
+                          });
+                        });
+                      }
+                    },
+                    icon: (image == null)
+                        ? const Icon(Icons.photo, size: 40)
+                        : Image.memory(image!.bytes),
+                  ),
+                ),
+              ),
               TextFormField(
-                initialValue: note?.title,
+                initialValue: widget.note?.title,
                 decoration: const InputDecoration(
                   hintText: 'Title',
                 ),
@@ -82,8 +129,9 @@ class NoteScreen extends StatelessWidget {
                 },
               ),
               Expanded(
+                flex: 2,
                 child: TextFormField(
-                  initialValue: note?.body,
+                  initialValue: widget.note?.body,
                   decoration: const InputDecoration(
                     hintText: 'Write your note',
                   ),

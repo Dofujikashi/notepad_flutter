@@ -14,6 +14,7 @@ class ColorPickerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         ColorButton(
           function: () => c.selectedColor.value = NoteColor.amber,
