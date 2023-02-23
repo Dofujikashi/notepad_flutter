@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:floor/floor.dart';
+import 'package:notepad_flutter/features/data/converter/alarm_converter.dart';
 import '../converter/image_converter.dart';
 import 'package:notepad_flutter/core/note_color.dart';
 import '../dao/note_dao.dart';
@@ -10,7 +11,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'database.g.dart'; // the generated code will be there
 
-@TypeConverters([ImageConverter])
+@TypeConverters([ImageConverter, AlarmConverter])
 @Database(version: 1, entities: [Note])
 abstract class AppDatabase extends FloorDatabase {
   NoteDao get noteDao;

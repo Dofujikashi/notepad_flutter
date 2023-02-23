@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DeleteNoteDialog extends StatelessWidget {
   const DeleteNoteDialog({Key? key}) : super(key: key);
@@ -12,14 +13,14 @@ class DeleteNoteDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context, false),
+          onPressed: () => Get.back(result: false),
           child: const Text(
             'Go back',
             style: TextStyle(color: Colors.black),
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, true),
+          onPressed: () => Get.back(result: true),
           child: const Text(
             'Delete',
             style: TextStyle(color: Colors.red),

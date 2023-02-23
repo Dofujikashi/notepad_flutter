@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `body` TEXT, `category` INTEGER NOT NULL, `color` INTEGER NOT NULL, `image` BLOB)');
+            'CREATE TABLE IF NOT EXISTS `Note` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `body` TEXT, `category` INTEGER NOT NULL, `color` INTEGER NOT NULL, `image` BLOB, `alarm` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -113,7 +113,8 @@ class _$NoteDao extends NoteDao {
                   'body': item.body,
                   'category': item.category.index,
                   'color': item.color.index,
-                  'image': _imageConverter.encode(item.image)
+                  'image': _imageConverter.encode(item.image),
+                  'alarm': _alarmConverter.encode(item.alarm)
                 },
             changeListener),
         _noteUpdateAdapter = UpdateAdapter(
@@ -126,7 +127,8 @@ class _$NoteDao extends NoteDao {
                   'body': item.body,
                   'category': item.category.index,
                   'color': item.color.index,
-                  'image': _imageConverter.encode(item.image)
+                  'image': _imageConverter.encode(item.image),
+                  'alarm': _alarmConverter.encode(item.alarm)
                 },
             changeListener),
         _noteDeletionAdapter = DeletionAdapter(
@@ -139,7 +141,8 @@ class _$NoteDao extends NoteDao {
                   'body': item.body,
                   'category': item.category.index,
                   'color': item.color.index,
-                  'image': _imageConverter.encode(item.image)
+                  'image': _imageConverter.encode(item.image),
+                  'alarm': _alarmConverter.encode(item.alarm)
                 },
             changeListener);
 
@@ -164,7 +167,8 @@ class _$NoteDao extends NoteDao {
             NoteCategory.values[row['category'] as int],
             row['body'] as String?,
             NoteColor.values[row['color'] as int],
-            _imageConverter.decode(row['image'] as Uint8List?)),
+            _imageConverter.decode(row['image'] as Uint8List?),
+            _alarmConverter.decode(row['alarm'] as String?)),
         queryableName: 'Note',
         isView: false);
   }
@@ -179,7 +183,8 @@ class _$NoteDao extends NoteDao {
             NoteCategory.values[row['category'] as int],
             row['body'] as String?,
             NoteColor.values[row['color'] as int],
-            _imageConverter.decode(row['image'] as Uint8List?)),
+            _imageConverter.decode(row['image'] as Uint8List?),
+            _alarmConverter.decode(row['alarm'] as String?)),
         arguments: [categoryIndex],
         queryableName: 'Note',
         isView: false);
@@ -208,3 +213,4 @@ class _$NoteDao extends NoteDao {
 
 // ignore_for_file: unused_element
 final _imageConverter = ImageConverter();
+final _alarmConverter = AlarmConverter();

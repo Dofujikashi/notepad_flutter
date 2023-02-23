@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notepad_flutter/features/controller/home_screen_controller.dart';
 import '../../../../core/note_category.dart';
 import 'package:get/get.dart';
+import 'package:get/get.dart';
 
 class CategoryDialog extends StatelessWidget {
   CategoryDialog({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class CategoryDialog extends StatelessWidget {
           onPressed: () {
             c.selectedCategory.value = NoteCategory.all;
             c.title.value = 'My Notes';
-            Navigator.pop(context);
+            Get.back();
           },
           child: const Text('Show all notes'),
         ),
@@ -24,7 +25,7 @@ class CategoryDialog extends StatelessWidget {
           onPressed: () {
             c.selectedCategory.value = NoteCategory.personal;
             c.title.value = 'Personal Notes';
-            Navigator.pop(context);
+            Get.back();
           },
           child: const Text('Show personel notes'),
         ),
@@ -32,7 +33,7 @@ class CategoryDialog extends StatelessWidget {
           onPressed: () {
             c.selectedCategory.value = NoteCategory.business;
             c.title.value = 'Business Notes';
-            Navigator.pop(context);
+            Get.back();
           },
           child: const Text('Show business notes'),
         ),
@@ -40,7 +41,7 @@ class CategoryDialog extends StatelessWidget {
           onPressed: () {
             c.selectedCategory.value = NoteCategory.shopping;
             c.title.value = 'Shopping Notes';
-            Navigator.pop(context);
+            Get.back();
           },
           child: const Text('Show shopping notes'),
         ),

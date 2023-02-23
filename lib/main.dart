@@ -10,7 +10,7 @@ Future<void> main() async {
   final database =
       await $FloorAppDatabase.databaseBuilder('my_database.db').build();
   final noteDao = database.noteDao;
-
+  // await noteDao.deleteAllNotes();
   runApp(MyApp(
     noteDao: noteDao,
   ));

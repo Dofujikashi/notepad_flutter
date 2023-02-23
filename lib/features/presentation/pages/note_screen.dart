@@ -6,6 +6,7 @@ import 'package:notepad_flutter/core/note_category.dart';
 import 'package:notepad_flutter/core/note_color.dart';
 import 'package:notepad_flutter/features/controller/note_screen_controller.dart';
 import 'package:notepad_flutter/features/data/dao/note_dao.dart';
+import 'package:notepad_flutter/features/presentation/widgets/alarm_widget.dart';
 import 'package:notepad_flutter/features/presentation/widgets/category_picker_row.dart';
 import '../../data/entity/note.dart';
 import '../widgets/color_picker_row.dart';
@@ -29,7 +30,6 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final c = Get.put(NoteScreenController());
   final imagePicker = ImagePicker();
   late MemoryImage? image = widget.note?.image;
@@ -40,11 +40,30 @@ class _NoteScreenState extends State<NoteScreen> {
     /// values will be overwritten.
     c.selectedCategory.value = widget.note?.category ?? NoteCategory.personal;
     c.selectedColor.value = widget.note?.color ?? NoteColor.amber;
+    c.setStringOfAlarm(widget.note?.alarm);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.note?.title ?? 'Create New Note'),
         actions: [
+          IconButton(
+              onPressed: () async {
+                final time = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                  builder: (context, child) {
+                    return MediaQuery(
+                      data: MediaQuery.of(context)
+                          .copyWith(alwaysUse24HourFormat: true),
+                      child: child!,
+                    );
+                  },
+                );
+                if (time != null) {
+                  c.alarm.value = '${time.hour}:${time.minute}';
+                }
+              },
+              icon: const Icon(Icons.alarm)),
           IconButton(
             onPressed: () {
               setState(() {
@@ -70,6 +89,12 @@ class _NoteScreenState extends State<NoteScreen> {
                   c.body,
                   c.selectedColor.value,
                   image,
+                  (c.alarm.value != '')
+                      ? TimeOfDay(
+                          hour: c.getHourFromAlarm(),
+                          minute: c.getMinuteFromAlarm(),
+                        )
+                      : null,
                 );
                 (widget.note == null)
                     ? widget.noteDao.insertNote(n)
@@ -87,6 +112,9 @@ class _NoteScreenState extends State<NoteScreen> {
           key: formKey,
           child: Column(
             children: [
+              Obx(
+                () => (c.alarm.value == '') ? Container() : AlarmCard(),
+              ),
               CategoryPickerRow(),
               ColorPickerRow(),
               const SizedBox(height: 8),

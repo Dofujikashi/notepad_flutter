@@ -12,8 +12,10 @@ class Note {
   final NoteCategory category;
   final NoteColor color;
   final MemoryImage? image;
+  final TimeOfDay? alarm;
 
-  Note(this.id, this.title, this.category, this.body, this.color, this.image);
+  Note(this.id, this.title, this.category, this.body, this.color, this.image,
+      this.alarm);
 
   @override
   String toString() {
@@ -24,7 +26,8 @@ class Note {
       body: $body, 
       category: $category,
       color: $color,
-      image: ${image?.bytes}
+      image: ${image?.bytes},
+      alarm: ${alarm?.hour}:${alarm?.minute}
     ''';
   }
 }

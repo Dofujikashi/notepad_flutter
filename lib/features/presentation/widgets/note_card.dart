@@ -3,7 +3,8 @@ import 'package:notepad_flutter/core/note_color.dart';
 import 'package:notepad_flutter/features/data/dao/note_dao.dart';
 import 'package:notepad_flutter/features/data/entity/note.dart';
 import 'package:notepad_flutter/features/presentation/pages/note_screen.dart';
-import 'package:notepad_flutter/features/utility/presentation_utility.dart';
+
+import '../../../core/note_category.dart';
 
 class NoteCard extends StatelessWidget {
   final NoteDao noteDao;
@@ -59,5 +60,18 @@ class NoteCard extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+IconData getCategoryIconForNoteCard(NoteCategory category) {
+  switch (category) {
+    case NoteCategory.personal:
+      return Icons.person;
+    case NoteCategory.business:
+      return Icons.business;
+    case NoteCategory.shopping:
+      return Icons.shopping_cart;
+    case NoteCategory.all:
+      return Icons.all_inclusive;
   }
 }

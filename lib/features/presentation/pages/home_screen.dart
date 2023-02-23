@@ -13,7 +13,7 @@ import 'note_screen.dart';
 class HomeScreen extends StatefulWidget {
   final NoteDao noteDao;
 
-  const HomeScreen({
+  HomeScreen({
     Key? key,
     required this.noteDao,
   }) : super(key: key);
