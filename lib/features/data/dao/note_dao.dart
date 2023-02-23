@@ -9,6 +9,9 @@ abstract class NoteDao {
   @Query('SELECT * FROM Note WHERE category = :categoryIndex')
   Stream<List<Note>> getNotesByCategory(int categoryIndex);
 
+  @Query('SELECT * FROM Note WHERE title LIKE :title')
+  Stream<List<Note>> getNotesBySearch(String title);
+
   @insert
   Future<void> insertNote(Note note);
 

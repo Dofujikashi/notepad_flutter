@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:notepad_flutter/features/controller/main_controller.dart';
 import 'features/data/dao/note_dao.dart';
 import 'features/data/database/database.dart';
 import 'features/presentation/pages/home_screen.dart';
@@ -23,13 +24,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Get.put(MainController(noteDao));
     return GetMaterialApp(
       theme: ThemeData.from(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.amber,
         ),
       ),
-      home: HomeScreen(noteDao: noteDao),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

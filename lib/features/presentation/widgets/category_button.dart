@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notepad_flutter/features/controller/note_screen_controller.dart';
 import 'package:get/get.dart';
-import '../../../core/note_color.dart';
 
 class CategoryButton extends StatelessWidget {
   final Function function;
@@ -23,11 +22,12 @@ class CategoryButton extends StatelessWidget {
       () => FilledButton(
         onPressed: () => function.call(),
         style: OutlinedButton.styleFrom(
+          backgroundColor: c.selectedColor.value.color,
           side: BorderSide(
             width: 2,
             color: (c.selectedCategory.value.name == title.toLowerCase())
                 ? Colors.black
-                : NoteColor.amber.color,
+                : c.selectedColor.value.color,
           ),
         ),
         child: Row(

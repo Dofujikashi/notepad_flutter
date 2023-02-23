@@ -17,23 +17,38 @@ class ColorPickerRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         ColorButton(
-          function: () => c.selectedColor.value = NoteColor.amber,
+          function: () {
+            c.selectedColor.value = NoteColor.amber;
+            c.pageColor.value = NoteColor.amber.color.shade200;
+          },
           color: NoteColor.amber.color,
         ),
         ColorButton(
-          function: () => c.selectedColor.value = NoteColor.white,
-          color: NoteColor.white.color,
+          function: () {
+            c.selectedColor.value = NoteColor.grey;
+            c.pageColor.value = NoteColor.grey.color.shade200;
+          },
+          color: NoteColor.grey.color,
         ),
         ColorButton(
-          function: () => c.selectedColor.value = NoteColor.red,
+          function: () {
+            c.selectedColor.value = NoteColor.red;
+            c.pageColor.value = NoteColor.red.color.shade200;
+          },
           color: NoteColor.red.color,
         ),
         ColorButton(
-          function: () => c.selectedColor.value = NoteColor.green,
+          function: () {
+            c.selectedColor.value = NoteColor.green;
+            c.pageColor.value = NoteColor.green.color.shade200;
+          },
           color: NoteColor.green.color,
         ),
         ColorButton(
-          function: () => c.selectedColor.value = NoteColor.blue,
+          function: () {
+            c.selectedColor.value = NoteColor.blue;
+            c.pageColor.value = NoteColor.blue.color.shade200;
+          },
           color: NoteColor.blue.color,
         ),
       ],

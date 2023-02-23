@@ -9,6 +9,9 @@ class AlarmCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton(
+      style: FilledButton.styleFrom(
+        backgroundColor: c.selectedColor.value.color,
+      ),
       onPressed: () => c.alarm.value = '',
       child: Obx(
         () => Row(

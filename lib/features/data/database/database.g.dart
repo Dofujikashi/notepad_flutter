@@ -191,6 +191,23 @@ class _$NoteDao extends NoteDao {
   }
 
   @override
+  Stream<List<Note>> getNotesBySearch(String title) {
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM Note WHERE title LIKE ?1',
+        mapper: (Map<String, Object?> row) => Note(
+            row['id'] as int?,
+            row['title'] as String,
+            NoteCategory.values[row['category'] as int],
+            row['body'] as String?,
+            NoteColor.values[row['color'] as int],
+            _imageConverter.decode(row['image'] as Uint8List?),
+            _alarmConverter.decode(row['alarm'] as String?)),
+        arguments: [title],
+        queryableName: 'Note',
+        isView: false);
+  }
+
+  @override
   Future<void> deleteAllNotes() async {
     await _queryAdapter.queryNoReturn('DELETE FROM Note');
   }
