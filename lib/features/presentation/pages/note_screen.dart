@@ -34,11 +34,12 @@ class _NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     /// If the user came to this page for updating their note, the default
     /// values will be overwritten.
-    c.selectedCategory.value = widget.note?.category ?? NoteCategory.personal;
-    c.selectedColor.value = widget.note?.color ?? NoteColor.amber;
-    c.setStringOfAlarm(widget.note?.alarm);
-    c.setPageColor(widget.note?.color);
-
+    if (widget.note != null) {
+      c.selectedCategory.value = widget.note?.category ?? NoteCategory.personal;
+      c.selectedColor.value = widget.note?.color ?? NoteColor.amber;
+      c.setStringOfAlarm(widget.note?.alarm);
+      c.setPageColor(widget.note?.color);
+    }
     return Obx(
       () => Scaffold(
         backgroundColor: c.pageColor.value,
